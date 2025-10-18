@@ -321,6 +321,33 @@ footer {
     color: #856404;
 }
 
+.github-link {
+    margin-top: 20px;
+}
+
+.github-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #24292e;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.github-link a:hover {
+    background: #1a1e22;
+    transform: translateY(-2px);
+}
+
+.github-link svg {
+    width: 20px;
+    height: 20px;
+}
+
 /* Scrollbar styling */
 .unfollowers-list::-webkit-scrollbar {
     width: 8px;
