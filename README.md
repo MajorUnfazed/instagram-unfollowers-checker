@@ -4,12 +4,6 @@ A simple, privacy-focused web application to find out who's not following you ba
 
 ![Instagram Unfollowers Checker](https://img.shields.io/badge/Instagram-Unfollowers%20Checker-purple?style=for-the-badge&logo=instagram)
 
-## 🔗 Live Demo
-
-**🌐 [https://insta-unfollowers.netlify.app/](https://insta-unfollowers.netlify.app/)**
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-site-id/deploy-status)](https://insta-unfollowers.netlify.app/)
-
 ## ✨ Features
 
 - 🔒 **100% Privacy** - All processing happens locally in your browser. No data is uploaded to any server.
@@ -58,7 +52,7 @@ A simple, privacy-focused web application to find out who's not following you ba
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/MajorUnfazed/instagram-unfollowers-checker.git
+git clone https://github.com/yourusername/instagram-unfollowers-checker.git
 ```
 
 2. Navigate to the project folder:
@@ -163,9 +157,7 @@ If you found this tool helpful, please consider:
 
 ## 📧 Contact
 
-Created by [@MajorUnfazed](https://github.com/MajorUnfazed)
-
-**Live Site:** [https://insta-unfollowers.netlify.app/](https://insta-unfollowers.netlify.app/)
+Created by [@yourusername](https://github.com/yourusername)
 
 ---
 
