@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Unfollowers Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 Instagram Unfollowers Checker</h1>
+            <p class="subtitle">Find out who's not following you back</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-box">
+                        <label for="followers-file" class="file-label">
+                            <div class="icon">👥</div>
+                            <h3>Upload Followers</h3>
+                            <p>Select your followers_1.json file</p>
+                            <input type="file" id="followers-file" accept=".json" />
+                            <span class="file-name" id="followers-name">No file chosen</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="upload-card">
+                    <div class="upload-box">
+                        <label for="following-file" class="file-label">
+                            <div class="icon">➕</div>
+                            <h3>Upload Following</h3>
+                            <p>Select your following.json file</p>
+                            <input type="file" id="following-file" accept=".json" />
+                            <span class="file-name" id="following-name">No file chosen</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button id="analyze-btn" class="analyze-btn" disabled>
+                Analyze
+            </button>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing your data...</p>
+            </div>
+
+            <div id="results" class="results hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="followers-count">0</div>
+                        <div class="stat-label">Total Followers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="following-count">0</div>
+                        <div class="stat-label">Total Following</div>
+                    </div>
+                    <div class="stat-card highlight">
+                        <div class="stat-number" id="unfollowers-count">0</div>
+                        <div class="stat-label">Not Following Back</div>
+                    </div>
+                </div>
+
+                <div class="unfollowers-section">
+                    <h2>People Not Following You Back</h2>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search by username..." />
+                    </div>
+                    <div id="unfollowers-list" class="unfollowers-list"></div>
+                    <div id="no-results" class="no-results hidden">
+                        <p>No users found matching your search.</p>
+                    </div>
+                </div>
+
+                <button id="download-btn" class="download-btn">
+                    📥 Download Results (CSV)
+                </button>
+            </div>
+
+            <div class="instructions">
+                <h3>How to get your Instagram data:</h3>
+                <ol>
+                    <li>Open Instagram app or website</li>
+                    <li>Go to Settings → Your Activity → Download Your Information</li>
+                    <li>Request a download (JSON format)</li>
+                    <li>Wait for Instagram to prepare your data (can take a few days)</li>
+                    <li>Download and extract the zip file</li>
+                    <li>Find <code>followers_1.json</code> and <code>following.json</code> in the <code>connections/followers_and_following</code> folder</li>
+                </ol>
+            </div>
+        </main>
+
+        <footer>
+            <p>⚠️ Your data is processed locally in your browser. Nothing is uploaded to any server.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
