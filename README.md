@@ -6,14 +6,14 @@ A simple, privacy-focused web application to find out who's not following you ba
 
 ## ✨ Features
 
-- 🔒 **100% Privacy** - All processing happens locally in your browser. No data is uploaded to any server.
-- 📊 **Detailed Statistics** - View your total followers, following, and who's not following back
-- 🔍 **Search Functionality** - Easily search through the list of unfollowers
-- 📥 **Export to CSV** - Download the complete list for offline use
-- 🎨 **Beautiful UI** - Modern, responsive design that works on all devices
-- 🔗 **Direct Links** - Quick access to any user's Instagram profile
+- **100% Privacy** - All processing happens locally in your browser. No data is uploaded to any server.
+- **Detailed Statistics** - View your total followers, following, and who's not following back
+- **Search Functionality** - Easily search through the list of unfollowers
+- **Export to CSV** - Download the complete list for offline use
+- **Beautiful UI** - Modern, responsive design that works on all devices
+- **Direct Links** - Quick access to any user's Instagram profile
 
-## 🚀 How to Use
+## How to Use
 
 ### Step 1: Get Your Instagram Data
 
@@ -48,7 +48,7 @@ A simple, privacy-focused web application to find out who's not following you ba
 - CSS3 (with modern gradients and animations)
 - Vanilla JavaScript (no frameworks required)
 
-## 📦 Installation (For Local Use)
+## Installation (For Local Use)
 
 1. Clone this repository:
 ```bash
@@ -88,14 +88,14 @@ You can also deploy to:
 - [Vercel](https://vercel.com/) - One-click deployment
 - [Cloudflare Pages](https://pages.cloudflare.com/) - Fast global deployment
 
-## 🔐 Privacy & Security
+## Privacy & Security
 
 - **No Server Communication** - All data processing happens in your browser
 - **No Data Storage** - Files are processed in memory and never saved
 - **No Tracking** - No analytics or tracking scripts
 - **Open Source** - Review the code yourself!
 
-## 📝 File Structure
+## File Structure
 
 ```
 instagram-unfollowers-checker/
@@ -105,16 +105,6 @@ instagram-unfollowers-checker/
 ├── README.md           # Documentation
 └── .gitignore          # Git ignore file
 ```
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## ⚠️ Disclaimer
 
@@ -148,17 +138,3 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 💖 Support
-
-If you found this tool helpful, please consider:
-- ⭐ Starring this repository
-- 🐛 Reporting bugs
-- 💡 Suggesting new features
-
-## 📧 Contact
-
-Created by [@yourusername](https://github.com/yourusername)
-
----
-
-Made with ❤️ for the Instagram community
