@@ -174,6 +174,30 @@ function filterUnfollowers(searchTerm) {
     }
 }
 
+
+// Sanitize fields to prevent CSV injection
+function sanitizeCSVField(field) {
+    if (!field) return '';
+    let sanitized = String(field);
+
+    // Prevent CSV injection by prefixing formula characters with a single quote
+    if (/^[=+\-@\t\r\n]/.test(sanitized)) {
+        sanitized = "'" + sanitized;
+    }
+
+    // Escape double quotes by doubling them
+    if (sanitized.includes('"')) {
+        sanitized = sanitized.replace(/"/g, '""');
+    }
+
+    // Wrap in double quotes if it contains commas, quotes, or newlines
+    if (/[",\n\r]/.test(sanitized)) {
+        sanitized = '"' + sanitized + '"';
+    }
+
+    return sanitized;
+}
+
 // Download results as CSV
 function downloadCSV() {
     if (unfollowersList.length === 0) {
@@ -183,7 +207,9 @@ function downloadCSV() {
     
     let csv = 'Username,Profile URL\n';
     unfollowersList.forEach(username => {
-        csv += `${username},https://instagram.com/${username}\n`;
+        const safeUsername = sanitizeCSVField(username);
+        const safeUrl = sanitizeCSVField(`https://instagram.com/${username}`);
+        csv += `${safeUsername},${safeUrl}\n`;
     });
     
     const blob = new Blob([csv], { type: 'text/csv' });
