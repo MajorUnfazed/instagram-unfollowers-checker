@@ -148,10 +148,18 @@ function displayUnfollowers(unfollowers) {
         const item = document.createElement('div');
         item.className = 'unfollower-item';
         
-        item.innerHTML = `
-            <span class="username">@${username}</span>
-            <a href="https://instagram.com/${username}" target="_blank" class="profile-link">View Profile</a>
-        `;
+        const usernameSpan = document.createElement('span');
+        usernameSpan.className = 'username';
+        usernameSpan.textContent = `@${username}`;
+
+        const profileLink = document.createElement('a');
+        profileLink.href = `https://instagram.com/${encodeURIComponent(username)}`;
+        profileLink.target = '_blank';
+        profileLink.className = 'profile-link';
+        profileLink.textContent = 'View Profile';
+
+        item.appendChild(usernameSpan);
+        item.appendChild(profileLink);
         
         listContainer.appendChild(item);
     });
