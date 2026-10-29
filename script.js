@@ -196,3 +196,15 @@ function downloadCSV() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
+
+// Export functions for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        extractUsernames,
+        displayUnfollowers,
+        filterUnfollowers,
+        analyzeData,
+        readJSONFile,
+        downloadCSV
+    };
+}

@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A simple, privacy-focused web application to find out who's not following you back on Instagram.",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MajorUnfazed/instagram-unfollowers-checker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MajorUnfazed/instagram-unfollowers-checker/issues"
+  },
+  "homepage": "https://github.com/MajorUnfazed/instagram-unfollowers-checker#readme",
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}

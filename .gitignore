@@ -1,5 +1,5 @@
 # Instagram JSON files (personal data)
-*.json
+
 
 # macOS
 .DS_Store
@@ -32,3 +32,8 @@ yarn-error.log*
 # Temporary files
 *.tmp
 *.temp
+node_modules/
+
+# Instagram JSON files (personal data)
+followers*.json
+following.json
