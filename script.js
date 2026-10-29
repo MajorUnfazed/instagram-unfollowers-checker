@@ -15,21 +15,18 @@ const searchInput = document.getElementById('search-input');
 const downloadBtn = document.getElementById('download-btn');
 
 // File upload handlers
-followersInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        followersNameSpan.textContent = file.name;
-        readJSONFile(file, 'followers');
-    }
-});
+function setupFileUpload(inputElement, nameSpan, type) {
+    inputElement.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            nameSpan.textContent = file.name;
+            readJSONFile(file, type);
+        }
+    });
+}
 
-followingInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        followingNameSpan.textContent = file.name;
-        readJSONFile(file, 'following');
-    }
-});
+setupFileUpload(followersInput, followersNameSpan, 'followers');
+setupFileUpload(followingInput, followingNameSpan, 'following');
 
 // Read JSON file
 function readJSONFile(file, type) {
