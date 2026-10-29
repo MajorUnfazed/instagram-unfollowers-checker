@@ -86,7 +86,8 @@ function analyzeData() {
             const following = extractUsernames(followingData, true);
             
             // Find users who don't follow back
-            unfollowersList = following.filter(user => !followers.includes(user));
+            const followersSet = new Set(followers);
+            unfollowersList = following.filter(user => !followersSet.has(user));
             
             // Update stats
             document.getElementById('followers-count').textContent = followers.length;
