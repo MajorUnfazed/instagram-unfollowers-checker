@@ -58,9 +58,7 @@ function readJSONFile(file, type) {
 }
 
 // Analyze button click handler
-analyzeBtn.addEventListener('click', () => {
-    analyzeData();
-});
+analyzeBtn.addEventListener('click', analyzeData);
 
 // Search functionality
 searchInput.addEventListener('input', (e) => {
@@ -69,11 +67,8 @@ searchInput.addEventListener('input', (e) => {
 });
 
 // Download button click handler
-downloadBtn.addEventListener('click', () => {
-    downloadCSV();
-});
+downloadBtn.addEventListener('click', downloadCSV);
 
-// Main analysis function
 function analyzeData() {
     loadingDiv.classList.remove('hidden');
     resultsDiv.classList.add('hidden');
