@@ -32,3 +32,4 @@ yarn-error.log*
 # Temporary files
 *.tmp
 *.temp
+node_modules/
