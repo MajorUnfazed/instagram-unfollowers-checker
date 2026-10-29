@@ -196,3 +196,10 @@ function downloadCSV() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        extractUsernames
+    };
+}
