@@ -120,13 +120,9 @@ function extractUsernames(data, isFollowing = false) {
     }
     // Handle followers_1.json format (direct array)
     else if (Array.isArray(data)) {
-        data.forEach(item => {
-            if (item.string_list_data && Array.isArray(item.string_list_data)) {
-                item.string_list_data.forEach(user => {
-                    if (user.value) {
-                        usernames.push(user.value);
-                    }
-                });
+        data.flatMap(item => item?.string_list_data || []).forEach(user => {
+            if (user?.value) {
+                usernames.push(user.value);
             }
         });
     }
