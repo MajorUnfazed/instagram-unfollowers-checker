@@ -4,98 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Unfollowers Checker</title>
+    <script>
+        try {
+            const savedTheme = localStorage.getItem('unfollowers-theme');
+            if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
+        } catch { /* The system theme also works when storage is unavailable. */ }
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📱 Instagram Unfollowers Checker</h1>
-            <p class="subtitle">Find out who's not following you back</p>
+            <div class="topbar">
+                <a class="owner" href="https://github.com/MajorUnfazed/instagram-unfollowers-checker">
+                    <span class="brand-mark" aria-hidden="true"></span>MajorUnfazed
+                </a>
+                <label class="theme-control" for="theme">
+                    <span>Theme</span>
+                    <select id="theme">
+                        <option value="system">System</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </label>
+            </div>
+            <h1>Instagram Unfollowers <em>Checker</em></h1>
+            <p class="subtitle">Find accounts that don’t follow you back, or see how your follower list changed between exports.</p>
         </header>
 
         <main>
-            <div class="upload-section">
-                <div class="upload-card">
-                    <div class="upload-box">
-                        <label for="followers-file" class="file-label">
-                            <div class="icon">👥</div>
-                            <h3>Upload Followers</h3>
-                            <p>Select your followers_1.json file</p>
-                            <input type="file" id="followers-file" accept=".json" />
-                            <span class="file-name" id="followers-name">No file chosen</span>
+            <section class="import-panel" aria-label="Compare Instagram exports">
+                <fieldset id="import-controls">
+                    <fieldset class="mode-picker">
+                        <legend>Choose a comparison</legend>
+                        <div class="mode-options">
+                            <label><input type="radio" name="comparison" value="follow-back" checked><span>Who doesn’t follow me back?</span></label>
+                            <label><input type="radio" name="comparison" id="history-mode" value="history"><span>What changed since my last export?</span></label>
+                        </div>
+                    </fieldset>
+                    <div id="zip-inputs" class="upload-section">
+                        <label class="drop-zone" for="first-zip">
+                            <span class="archive-icon" aria-hidden="true"><i></i></span>
+                            <strong id="first-zip-label">Instagram export</strong>
+                            <span class="hint">Drop your ZIP file here</span>
+                            <input id="first-zip" type="file" accept=".zip,application/zip">
+                            <span class="file-name" id="first-zip-name">Choose ZIP</span>
+                        </label>
+                        <label class="drop-zone hidden" id="newer-zone" for="second-zip">
+                            <span class="archive-icon" aria-hidden="true"><i></i></span>
+                            <strong>Newer export</strong>
+                            <span class="hint">Drop the later ZIP from the same account</span>
+                            <input id="second-zip" type="file" accept=".zip,application/zip">
+                            <span class="file-name" id="second-zip-name">Choose ZIP</span>
                         </label>
                     </div>
-                </div>
+                    <label class="source-choice"><input type="checkbox" id="manual-input"> Use extracted JSON files</label>
+                    <div id="json-inputs" class="upload-section hidden">
+                        <div class="upload-card">
+                            <div class="upload-box">
+                                <label for="followers-file" class="file-label">
+                                    <h3 id="first-label">Followers</h3>
+                                    <p id="first-hint">Select all followers JSON files from the same export</p>
+                                    <input type="file" id="followers-file" accept=".json" multiple />
+                                    <span class="file-name" id="followers-name">No file chosen</span>
+                                </label>
+                            </div>
+                        </div>
 
-                <div class="upload-card">
-                    <div class="upload-box">
-                        <label for="following-file" class="file-label">
-                            <div class="icon">➕</div>
-                            <h3>Upload Following</h3>
-                            <p>Select your following.json file</p>
-                            <input type="file" id="following-file" accept=".json" />
-                            <span class="file-name" id="following-name">No file chosen</span>
-                        </label>
+                        <div class="upload-card">
+                            <div class="upload-box">
+                                <label for="following-file" class="file-label">
+                                    <h3 id="second-label">Following</h3>
+                                    <p id="second-hint">Select your following.json file</p>
+                                    <input type="file" id="following-file" accept=".json" />
+                                    <span class="file-name" id="following-name">No file chosen</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
+
+                    <button id="analyze-btn" class="analyze-btn hidden" disabled>
+                        Analyze
+                    </button>
+                </fieldset>
+                <p id="file-error" role="alert"></p>
+
+                <div id="loading" class="loading hidden" role="status">
+                    <div class="spinner"></div>
+                    <p id="loading-status">Reading export files…</p>
+                    <button type="button" id="cancel-analysis">Cancel</button>
                 </div>
-            </div>
-
-            <button id="analyze-btn" class="analyze-btn" disabled>
-                Analyze
-            </button>
-
-            <div id="loading" class="loading hidden">
-                <div class="spinner"></div>
-                <p>Analyzing your data...</p>
-            </div>
+            </section>
+            <aside class="instructions" aria-labelledby="guide-heading">
+                <h2 id="guide-heading">Get your export</h2>
+                <ol>
+                    <li>In <strong>Meta Accounts Center</strong>, request an export for your Instagram account.</li>
+                    <li>Select <strong>Followers and following</strong>. Choose <strong>All time</strong> and <strong>JSON</strong>.</li>
+                    <li>Download the ZIP when it’s ready and open it here.</li>
+                </ol>
+                <p class="local-note">Your files stay on this device. The comparison runs in your browser.</p>
+            </aside>
 
             <div id="results" class="results hidden">
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number" id="followers-count">0</div>
-                        <div class="stat-label">Total Followers</div>
+                        <div class="stat-label" id="first-stat-label">Total Followers</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number" id="following-count">0</div>
-                        <div class="stat-label">Total Following</div>
+                        <div class="stat-label" id="second-stat-label">Total Following</div>
                     </div>
-                    <div class="stat-card highlight">
+                    <div class="stat-card highlight" id="follow-back-stat">
                         <div class="stat-number" id="unfollowers-count">0</div>
                         <div class="stat-label">Not Following Back</div>
                     </div>
                 </div>
 
                 <div class="unfollowers-section">
-                    <h2>People Not Following You Back</h2>
+                    <h2 id="results-heading">People Not Following You Back</h2>
+                    <p id="history-note" class="hidden">A username change can appear as one missing username and one new username.</p>
+                    <div id="change-filters" class="filters hidden" role="group" aria-label="Filter follower changes">
+                        <button type="button" data-filter="All" aria-pressed="true">All (0)</button>
+                        <button type="button" data-filter="Missing" aria-pressed="false">Missing (0)</button>
+                        <button type="button" data-filter="New" aria-pressed="false">New (0)</button>
+                    </div>
                     <div class="search-box">
-                        <input type="text" id="search-input" placeholder="Search by username..." />
+                        <input type="text" id="search-input" aria-label="Search by username" placeholder="Search by username..." />
                     </div>
                     <div id="unfollowers-list" class="unfollowers-list"></div>
+                    <nav id="result-pages" class="result-pages hidden" aria-label="Result pages">
+                        <button type="button" id="previous-page">Previous</button>
+                        <span id="page-number" aria-live="polite"></span>
+                        <button type="button" id="next-page">Next</button>
+                    </nav>
                     <div id="no-results" class="no-results hidden">
                         <p>No users found matching your search.</p>
                     </div>
                 </div>
 
                 <button id="download-btn" class="download-btn">
-                    📥 Download Results (CSV)
+                    Download full results (CSV)
                 </button>
             </div>
 
-            <div class="instructions">
-                <h3>How to get your Instagram data:</h3>
-                <ol>
-                    <li>Open Instagram app or website</li>
-                    <li>Go to Settings → Your Activity → Download Your Information</li>
-                    <li>Request a download (JSON format)</li>
-                    <li>Wait for Instagram to prepare your data (can take a few days)</li>
-                    <li>Download and extract the zip file</li>
-                    <li>Find <code>followers_1.json</code> and <code>following.json</code> in the <code>connections/followers_and_following</code> folder</li>
-                </ol>
-            </div>
         </main>
 
         <footer>
-            <p>⚠️ Your data is processed locally in your browser. Nothing is uploaded to any server.</p>
             <div class="github-link">
                 <a href="https://github.com/MajorUnfazed/instagram-unfollowers-checker" target="_blank" rel="noopener noreferrer">
                     <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
@@ -107,6 +162,9 @@
         </footer>
     </div>
 
+    <script src="vendor/zip.js-2.25.0/zip-native.min.js"></script>
+    <script src="vendor/streamparser-json-0.0.26/jsonparser.min.js"></script>
+    <script src="imports.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

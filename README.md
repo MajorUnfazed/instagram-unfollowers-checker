@@ -1,140 +1,58 @@
-# 📱 Instagram Unfollowers Checker
+# Instagram Unfollowers Checker
 
-A simple, privacy-focused web application to find out who's not following you back on Instagram.
+Use one Instagram export to see which accounts you follow that don’t follow you back. With exports from two dates, you can also see which follower usernames appeared or disappeared between them. Your browser reads the files locally. The checker never receives your Instagram credentials or sends your lists to a server.
 
-![Instagram Unfollowers Checker](https://img.shields.io/badge/Instagram-Unfollowers%20Checker-purple?style=for-the-badge&logo=instagram)
+[Open the checker](https://insta-unfollowers.netlify.app/)
 
-## ✨ Features
+The **Theme** menu follows your device’s appearance by default. Choose **Light** or **Dark** to save a preference in this browser. You can switch themes while reviewing results.
 
-- **100% Privacy** - All processing happens locally in your browser. No data is uploaded to any server.
-- **Detailed Statistics** - View your total followers, following, and who's not following back
-- **Search Functionality** - Easily search through the list of unfollowers
-- **Export to CSV** - Download the complete list for offline use
-- **Beautiful UI** - Modern, responsive design that works on all devices
-- **Direct Links** - Quick access to any user's Instagram profile
+## Prepare your export
 
-## How to Use
+1. In Meta Accounts Center, request an export to your device for the Instagram profile you want to check.
+2. Select **Followers and following**, choose **All time** for the date range, and set the format to **JSON**.
+3. Download the ZIP when it’s ready. You can open it directly in the checker.
 
-### Step 1: Get Your Instagram Data
+## Check follow-backs
 
-1. Open Instagram app or visit [Instagram.com](https://www.instagram.com)
-2. Go to **Settings** → **Your Activity** → **Download Your Information**
-3. Select **Some of your information**
-4. Choose **Followers and following**
-5. Select **JSON** as the format
-6. Click **Create files**
-7. Wait for Instagram to prepare your data (can take a few hours to a few days)
-8. Download the zip file when ready
-9. Extract the zip file
+Choose **Who doesn’t follow me back?** and drop your ZIP into **Instagram export**, or click **Choose ZIP**. The checker reads the followers and following lists from the archive and displays the results automatically.
 
-### Step 2: Upload Your Files
+Search by username or use **Previous** and **Next** to browse up to 100 accounts per page. Each row links to the account’s profile. **Download full results (CSV)** includes every result across all pages and filters.
 
-1. Open the [Instagram Unfollowers Checker](https://insta-unfollowers.netlify.app/)
-2. Navigate to the extracted folder: `connections/followers_and_following/`
-3. Upload `followers_1.json`
-4. Upload `following.json`
-5. Click **Analyze**
+The results reflect the account lists at the time of the export. An account on the list may never have followed you.
 
-### Step 3: View Results
+## Compare two exports
 
-- See your statistics displayed in the dashboard
-- Browse or search through people not following you back
-- Click "View Profile" to visit any user's Instagram page
-- Download the results as CSV if needed
+Choose **What changed since my last export?** and drop one ZIP into **Older export** and one into **Newer export**. Use exports from the same account. This comparison only needs the followers list from each date.
 
-## 🛠️ Technologies Used
+Select **Missing** for usernames found only in the older export or **New** for usernames found only in the newer one. Search works within the selected group. A renamed account can appear in both groups under different usernames. The CSV always includes both groups and a `Change` column.
 
-- Pure HTML5
-- CSS3 (with modern gradients and animations)
-- Vanilla JavaScript (no frameworks required)
+## Use extracted JSON files
 
-## Installation (For Local Use)
+Select **Use extracted JSON files** and look in `connections/followers_and_following/`. Select every followers part for each export. For a follow-back check, also select `following.json`. Click **Analyze** or **Compare exports**.
 
-1. Clone this repository:
-```bash
-git clone https://github.com/yourusername/instagram-unfollowers-checker.git
-```
+The checker flags gaps such as `followers_1.json` and `followers_3.json` without `followers_2.json`. It can’t detect an omitted final part, so check the original folder when selecting files by hand.
 
-2. Navigate to the project folder:
-```bash
+## Large exports
+
+ZIP and JSON imports read the account lists in chunks. The checker parses batches of records, keeps their usernames, and releases the records. During import, you can see which file is being read, cancel the comparison, and retry with the same files.
+
+The checker keeps unique usernames in memory and sorts the differences alphabetically. Memory use still grows with the number of distinct accounts and results. Search scans the selected group and displays up to 100 matches at a time.
+
+For 100,000 or more result rows, browsers with a file-save picker can write the CSV directly to disk in chunks. Other browsers assemble a downloadable file locally and need space for the complete CSV.
+
+**Tested with 10 million followers and 10 million following.** A synthetic export with 9.9 million usernames in common produced 100,000 follow-back results. On a Windows desktop with 16 GB of RAM running Chrome 158, the first page appeared in about 43 seconds from two extracted JSON files (2.39 GB total) and 28 seconds from a ZIP (113 MB). Each format was timed once. Searching found the last result, and the streamed CSV contained all 100,000 rows. Smaller devices and exports with more differences can have substantially different memory requirements.
+
+## Run locally
+
+```sh
+git clone https://github.com/MajorUnfazed/instagram-unfollowers-checker.git
 cd instagram-unfollowers-checker
 ```
 
-3. Open `index.html` in your browser:
-```bash
-# Windows
-start index.html
+Open `index.html` in your browser. The checker uses plain HTML, CSS, and JavaScript and runs offline. Opening a profile link requires an internet connection.
 
-# Mac
-open index.html
+## License
 
-# Linux
-xdg-open index.html
-```
+[MIT](LICENSE)
 
-## 🌐 Deploy Your Own
-
-### GitHub Pages (Recommended)
-
-1. Fork this repository
-2. Go to repository Settings → Pages
-3. Select **main** branch as source
-4. Your site will be available at `https://yourusername.github.io/instagram-unfollowers-checker`
-
-### Other Hosting Options
-
-You can also deploy to:
-- [Netlify](https://www.netlify.com/) - Drag and drop deployment
-- [Vercel](https://vercel.com/) - One-click deployment
-- [Cloudflare Pages](https://pages.cloudflare.com/) - Fast global deployment
-
-## Privacy & Security
-
-- **No Server Communication** - All data processing happens in your browser
-- **No Data Storage** - Files are processed in memory and never saved
-- **No Tracking** - No analytics or tracking scripts
-- **Open Source** - Review the code yourself!
-
-## File Structure
-
-```
-instagram-unfollowers-checker/
-├── index.html          # Main HTML file
-├── style.css           # Styling
-├── script.js           # Application logic
-├── README.md           # Documentation
-└── .gitignore          # Git ignore file
-```
-
-## ⚠️ Disclaimer
-
-This tool is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms, Inc. Use at your own discretion. Be respectful of others' privacy and Instagram's Terms of Service.
-
-## 📄 License
-
-This project is licensed under the MIT License - see below for details:
-
-```
-MIT License
-
-Copyright (c) 2025
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
+The bundled archive reader and streaming JSON parser have their own licenses. [zip.js license](vendor/zip.js-2.25.0/LICENSE) · [@streamparser/json license](vendor/streamparser-json-0.0.26/LICENSE)

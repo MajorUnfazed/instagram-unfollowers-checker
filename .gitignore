@@ -1,5 +1,6 @@
-# Instagram JSON files (personal data)
+# Instagram exports (personal data)
 *.json
+*.zip
 
 # macOS
 .DS_Store
