@@ -135,6 +135,8 @@ input[type="radio"], input[type="checkbox"] {
     accent-color: var(--accent);
 }
 
+.export-help { margin-bottom: 12px; color: var(--muted); font-size: .95rem; }
+.export-help a { font-weight: 600; text-underline-offset: 3px; }
 .upload-section { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; gap: 12px; }
 .drop-zone, .file-label {
     display: flex;

@@ -8,7 +8,7 @@ The **Theme** menu follows your device’s appearance by default. Choose **Light
 
 ## Prepare your export
 
-1. In Meta Accounts Center, request an export to your device for the Instagram profile you want to check.
+1. Open [Instagram exports in Meta Accounts Center](https://accountscenter.instagram.com/info_and_permissions/dyi/) and request an export to your device for the Instagram profile you want to check.
 2. Select **Followers and following**, choose **All time** for the date range, and set the format to **JSON**.
 3. Download the ZIP when it’s ready. You can open it directly in the checker.
 
