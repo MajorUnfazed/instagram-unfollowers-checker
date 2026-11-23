@@ -208,7 +208,7 @@ input[type="file"] { position: absolute; width: 1px; height: 1px; clip-path: ins
 }
 .file-name { margin-top: 8px; }
 .source-choice { display: inline-flex; gap: 9px; align-items: center; min-height: 36px; margin-top: 10px; }
-#json-inputs { margin: 12px 0; }
+#extracted-inputs { margin: 12px 0; }
 .file-label { height: 100%; }
 .file-label h3 { font-size: 1rem; }
 button:disabled { opacity: .55; }

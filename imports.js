@@ -1,20 +1,29 @@
+const followerFile = /^followers(?:_(\d+))?\.(json|html)$/i;
+const followingFile = /^following\.(json|html)$/i;
+
 // Numbered parts reveal gaps up to the highest selected number.
 function checkFollowerParts(files) {
     const numbers = [];
     let unnumbered = 0;
+    let format;
     for (const {name} of files) {
-        const match = /^followers_(\d+)\.json$/i.exec(name);
-        if (match) numbers.push(Number(match[1]));
-        if (/^followers\.json$/i.test(name)) unnumbered++;
-        if (/^following\.json$/i.test(name)) throw new Error('Choose the followers files for this list.');
+        if (followingFile.test(name)) throw new Error('Choose the followers files for this list.');
+        if (!/\.(json|html)$/i.test(name)) throw new Error('Choose Instagram followers files in JSON or HTML format.');
+        const extension = name.split('.').pop().toLowerCase();
+        if (format && extension !== format) throw new Error('Choose followers files in the same format for each export.');
+        format = extension;
+        const match = followerFile.exec(name);
+        if (!match) continue;
+        if (match[1] === undefined) unnumbered++;
+        else numbers.push(Number(match[1]));
     }
     if (unnumbered > 1 || (unnumbered && numbers.length)) {
         throw new Error('Choose followers files from a single export.');
     }
     numbers.sort((a, b) => a - b);
     for (const [index, number] of numbers.entries()) {
-        if (number < index + 1) throw new Error('Choose each numbered followers file once, starting with followers_1.json.');
-        if (number > index + 1) throw new Error(`Missing followers_${index + 1}.json. Include that part and select the full set again.`);
+        if (number < index + 1) throw new Error(`Choose each numbered followers file once, starting with followers_1.${format}.`);
+        if (number > index + 1) throw new Error(`Missing followers_${index + 1}.${format}. Include that part and select the full set again.`);
     }
 }
 
@@ -31,8 +40,8 @@ async function inspectArchive(file, needFollowing, readers, label) {
             const path = entry.filename.replaceAll('\\', '/');
             if (path.split('/').includes('__MACOSX')) continue;
             const basename = path.slice(path.lastIndexOf('/') + 1);
-            const isFollower = /^followers(?:_\d+)?\.json$/i.test(basename);
-            if (!isFollower && !(needFollowing && /^following\.json$/i.test(basename))) continue;
+            const isFollower = followerFile.test(basename);
+            if (!isFollower && !(needFollowing && followingFile.test(basename))) continue;
             folders.add(path.slice(0, path.lastIndexOf('/') + 1));
             const list = isFollower ? followers : following;
             list.push({
@@ -41,10 +50,10 @@ async function inspectArchive(file, needFollowing, readers, label) {
                 pipeTo: (sink, signal) => entry.getData(sink, {checkSignature: true, signal})
             });
         }
-        if (!followers.length) throw new Error('No followers JSON files found. Choose an Instagram export in JSON format.');
+        if (!followers.length) throw new Error('No followers files found. Choose an Instagram ZIP with Followers and following in JSON or HTML format.');
         if (folders.size > 1 || following.length > 1) throw new Error('Multiple lists found. Choose a ZIP containing one export.');
         checkFollowerParts(followers);
-        if (needFollowing && !following.length) throw new Error('Missing following.json. Include followers and following in the export.');
+        if (needFollowing && !following.length) throw new Error('No following file found. Include Followers and following in the export.');
         return {followers, following};
     } catch (error) {
         throw new Error(`${label} (${file.name}): ${error.message}`);
@@ -55,6 +64,7 @@ async function readSelection(files, type, label, signal, onProgress) {
     const usernames = new Set();
     for (const file of files) {
         try {
+            if (type === 'following' && followerFile.test(file.name)) throw new Error('Choose the following file for this list.');
             await collectUsernames(file, type, usernames, signal, onProgress);
         } catch (error) {
             if (signal.aborted) throw signal.reason;
@@ -144,8 +154,45 @@ function usernameParser(type, usernames) {
     };
 }
 
+function htmlUsernameParser(type, usernames, signal) {
+    const chunks = [];
+    const invalidLayout = 'Unrecognized Instagram HTML layout. Try requesting the export in JSON format.';
+    const profile = /^https?:\/\/(?:www\.)?instagram\.com\/(?:_u\/)?([a-z0-9_.]+)\/?(?:[?#][^\s]*)?$/i;
+    return {
+        write(text) {
+            chunks.push(text);
+        },
+        async end() {
+            // Keep imported markup in inert template content so it is never rendered or loaded.
+            const template = document.createElement('template');
+            template.innerHTML = chunks.join('');
+            chunks.length = 0;
+            const main = template.content.querySelector('main, ._a706');
+            const heading = (template.content.querySelector('h1') || template.content.querySelector('title'))?.textContent.trim().toLowerCase();
+            if (heading === (type === 'followers' ? 'following' : 'followers')) {
+                throw new Error(`Choose the ${type} HTML file for this list.`);
+            }
+            if (!main) throw new Error(invalidLayout);
+            const rows = main.querySelectorAll('._a6-g');
+            if (!rows.length && (!heading || main.textContent.trim() || main.querySelector('a'))) {
+                throw new Error(invalidLayout);
+            }
+            for (const [index, row] of rows.entries()) {
+                const link = row.querySelector('._a6-p a[href]');
+                const match = profile.exec(link?.getAttribute('href').trim() ?? '');
+                if (!match) throw new Error(invalidLayout);
+                usernames.add(match[1].toLowerCase());
+                if (index % 5000 === 4999) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    signal.throwIfAborted();
+                }
+            }
+        }
+    };
+}
+
 async function collectUsernames(file, type, usernames, signal, onProgress) {
-    const parser = usernameParser(type, usernames);
+    const parser = /\.html$/i.test(file.name) ? htmlUsernameParser(type, usernames, signal) : usernameParser(type, usernames);
     const decoder = new TextDecoder();
     let lastYield = performance.now();
     let consumed = 0;
@@ -170,6 +217,7 @@ async function collectUsernames(file, type, usernames, signal, onProgress) {
     });
     if (file.stream) await file.stream().pipeTo(sink, {signal});
     else await file.pipeTo(sink, signal);
+    signal.throwIfAborted();
     parser.write(decoder.decode());
-    parser.end();
+    await parser.end();
 }

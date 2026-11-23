@@ -43,17 +43,17 @@ function updateMode() {
     document.getElementById('first-zip-label').textContent = history ? 'Older export' : 'Instagram export';
     document.getElementById('newer-zone').classList.toggle('hidden', !history);
     document.getElementById('zip-inputs').classList.toggle('hidden', manualInput.checked);
-    document.getElementById('json-inputs').classList.toggle('hidden', !manualInput.checked);
+    document.getElementById('extracted-inputs').classList.toggle('hidden', !manualInput.checked);
     analyzeBtn.classList.toggle('hidden', !manualInput.checked);
     document.getElementById('change-filters').classList.toggle('hidden', !history);
     document.getElementById('first-label').textContent = history ? 'Older export' : 'Followers';
     document.getElementById('second-label').textContent = history ? 'Newer export' : 'Following';
     document.getElementById('first-hint').textContent = history
-        ? 'Select all followers JSON files from the earlier export'
-        : 'Select all followers JSON files from the same export';
+        ? 'Select all followers files from the earlier export'
+        : 'Select all followers files from the same export';
     document.getElementById('second-hint').textContent = history
-        ? 'Select all followers JSON files from the later export of the same account'
-        : 'Select your following.json file';
+        ? 'Select all followers files from the later export of the same account'
+        : 'Select following.json or following.html';
     document.getElementById('first-stat-label').textContent = history ? 'Followers in older export' : 'Total Followers';
     document.getElementById('second-stat-label').textContent = history ? 'Followers in newer export' : 'Total Following';
     document.getElementById('follow-back-stat').classList.toggle('hidden', history);

@@ -59,14 +59,14 @@
                             <span class="file-name" id="second-zip-name">Choose ZIP</span>
                         </label>
                     </div>
-                    <label class="source-choice"><input type="checkbox" id="manual-input"> Use extracted JSON files</label>
-                    <div id="json-inputs" class="upload-section hidden">
+                    <label class="source-choice"><input type="checkbox" id="manual-input"> Use extracted JSON or HTML files</label>
+                    <div id="extracted-inputs" class="upload-section hidden">
                         <div class="upload-card">
                             <div class="upload-box">
                                 <label for="followers-file" class="file-label">
                                     <h3 id="first-label">Followers</h3>
-                                    <p id="first-hint">Select all followers JSON files from the same export</p>
-                                    <input type="file" id="followers-file" accept=".json" multiple />
+                                    <p id="first-hint">Select all followers files from the same export</p>
+                                    <input type="file" id="followers-file" accept=".json,.html" multiple />
                                     <span class="file-name" id="followers-name">No file chosen</span>
                                 </label>
                             </div>
@@ -76,8 +76,8 @@
                             <div class="upload-box">
                                 <label for="following-file" class="file-label">
                                     <h3 id="second-label">Following</h3>
-                                    <p id="second-hint">Select your following.json file</p>
-                                    <input type="file" id="following-file" accept=".json" />
+                                    <p id="second-hint">Select following.json or following.html</p>
+                                    <input type="file" id="following-file" accept=".json,.html" />
                                     <span class="file-name" id="following-name">No file chosen</span>
                                 </label>
                             </div>
@@ -100,7 +100,7 @@
                 <h2 id="guide-heading">Get your export</h2>
                 <ol>
                     <li>In <strong>Meta Accounts Center</strong>, choose your Instagram profile and request an export to your device.</li>
-                    <li>Select <strong>Followers and following</strong>. Choose <strong>All time</strong> and <strong>JSON</strong>.</li>
+                    <li>Select <strong>Followers and following</strong>. Choose <strong>All time</strong> and either <strong>JSON</strong> or <strong>HTML</strong>.</li>
                     <li>Download the ZIP when it’s ready and open it here.</li>
                 </ol>
                 <p class="local-note">Your files stay on this device. The comparison runs in your browser.</p>

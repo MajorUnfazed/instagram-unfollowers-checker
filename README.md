@@ -9,7 +9,7 @@ The **Theme** menu follows your device’s appearance by default. Choose **Light
 ## Prepare your export
 
 1. Open [Instagram exports in Meta Accounts Center](https://accountscenter.instagram.com/info_and_permissions/dyi/) and request an export to your device for the Instagram profile you want to check.
-2. Select **Followers and following**, choose **All time** for the date range, and set the format to **JSON**.
+2. Select **Followers and following**, choose **All time** for the date range, and pick **JSON** or **HTML**.
 3. Download the ZIP when it’s ready. You can open it directly in the checker.
 
 ## Check follow-backs
@@ -26,15 +26,15 @@ Choose **What changed since my last export?** and drop one ZIP into **Older expo
 
 Select **Missing** for usernames found only in the older export or **New** for usernames found only in the newer one. Search works within the selected group. A renamed account can appear in both groups under different usernames. The CSV always includes both groups and a `Change` column.
 
-## Use extracted JSON files
+## Use extracted JSON or HTML files
 
-Select **Use extracted JSON files** and look in `connections/followers_and_following/`. Select every followers part for each export. For a follow-back check, also select `following.json`. Click **Analyze** or **Compare exports**.
+Select **Use extracted JSON or HTML files** and look in `connections/followers_and_following/`. Select every followers part for each export. For a follow-back check, also select `following.json` or `following.html`. Click **Analyze** or **Compare exports**.
 
 The checker flags gaps such as `followers_1.json` and `followers_3.json` without `followers_2.json`. It can’t detect an omitted final part, so check the original folder when selecting files by hand.
 
 ## Large exports
 
-ZIP and JSON imports read the account lists in chunks. The checker parses batches of records, keeps their usernames, and releases the records. During import, you can see which file is being read, cancel the comparison, and retry with the same files.
+The checker reads JSON account lists in chunks, keeps their usernames, and releases parsed records. It reads each HTML list into memory to extract usernames, so choose JSON for especially large exports. During import, you can see which file is being read, cancel the comparison, and retry with the same files.
 
 The checker keeps unique usernames in memory and sorts the differences alphabetically. Memory use still grows with the number of distinct accounts and results. Search scans the selected group and displays up to 100 matches at a time.
 
